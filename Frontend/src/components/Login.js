@@ -5,7 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-
+import axios from 'axios';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import './Login.css'
@@ -14,17 +14,42 @@ import './Login.css'
 export default class Login extends React.Component{
     constructor(props){
       super(props);
-      localStorage.setItem('username', 'danielA');
-      localStorage.setItem('password', '123');
+      this.state = {
+        username: '',
+        password: ''
+      }
+      this.handleChangeUsername = this.handleChangeUsername.bind(this);
+      this.handleChangePassword = this.handleChangePassword.bind(this);
+      this.iniciarSesion = this.iniciarSesion.bind(this);
+    }
+
+    handleChangeUsername(event){
+      this.setState({
+        username: event.target.value
+      })
+
+    }
+
+    handleChangePassword(event){
+      this.setState({
+        password: event.target.value
+      })
+
     }
 
     iniciarSesion(event){
-      window.setTimeout(()=> window.location.href="https://www.google.com",1000)
-      let username = document.getElementById("email").value;
-      let password = document.getElementById("password").value;
-      if (localStorage.getItem("username") ===  username && localStorage.getItem("password") === password){
-        localStorage.setItem('isLogginIn', 'true');
+      event.preventDefault();
+      let user = {
+                   username: this.state.username,
+                   password: this.state.password
       }
+      axios.post('http://localhost:8080/user/login', user)
+             .then(function (response) {
+                 console.log(response.data);
+             })
+             .catch(function (error) {
+                 console.log(error);
+             });
 
     }
 
@@ -41,10 +66,10 @@ export default class Login extends React.Component{
 
                         </Avatar>
                         <Typography variant="h2">Sign in</Typography>
-                        <form className="form" method="get">
+                        <form className="form" method="post" onSubmit={this.iniciarSesion}>
                             <FormControl margin="normal" required fullWidth>
                                 <InputLabel htmlFor="email">Email Address</InputLabel>
-                                <Input id="email" name="email" autoComplete="email" autoFocus />
+                                <Input id="email" name="email" autoComplete="email" autoFocus onChange={this.handleChangeUsername} />
                             </FormControl>
                             <FormControl margin="normal" required fullWidth>
                                 <InputLabel htmlFor="password">Password</InputLabel>
@@ -53,6 +78,7 @@ export default class Login extends React.Component{
                                     type="password"
                                     id="password"
                                     autoComplete="current-password"
+                                    onChange={this.handleChangePassword}
                                 />
                             </FormControl>
                             <Button
@@ -61,7 +87,6 @@ export default class Login extends React.Component{
                                 variant="contained"
                                 color="primary"
                                 className="submit"
-                                onClick= {() => this.iniciarSesion()}
                             >
                                 Sign in
                             </Button>

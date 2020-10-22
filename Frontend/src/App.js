@@ -54,7 +54,7 @@ class App extends React.Component{
 
   componentWillMount(){
     this.setState({
-        isLogginIn: localStorage.getItem("isLogginIn")
+      
     })
   }
 
@@ -94,21 +94,17 @@ class App extends React.Component{
                 <Route exact path="/task" exact component={NewTask}/>
               </Switch>
                   <br/>
-
-                  {this.state.isLogginIn && (
                     <div>
                       <UserList list={this.state.userList}/>
                       <NewTask newTask={this.handleTask}/>
                       <ResponsiveDrawer profileUser={this.handleProfile}/>
                       <OutlinedCard items={this.state.task}/>
-                    </div>)}
+                    </div>
                   <ul>
-                      {!this.state.isLogginIn && (
                         <div>
                           <li><Link to="/login">Login</Link></li>
 
                         </div>
-                      )}
                   </ul>
 
 
