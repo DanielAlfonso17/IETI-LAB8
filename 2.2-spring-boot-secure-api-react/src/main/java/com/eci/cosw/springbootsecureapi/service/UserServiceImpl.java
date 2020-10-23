@@ -64,6 +64,11 @@ public class UserServiceImpl
     }
 
     @Override
+    public User findUserByUsername(String username) {
+        return null;
+    }
+
+    @Override
     public User findUserByEmailAndPassword( String email, String password ) {
         for(User u: users){
             if(u.getEmail().equals(email) && u.getPassword().equals(password)){

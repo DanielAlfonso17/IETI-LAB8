@@ -17,7 +17,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping( "user" )
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController
 {
 
@@ -38,17 +38,17 @@ public class UserController
 
         String username = login.getUsername();
         String password = login.getPassword();
-
         //TODO implement logic to verify user credentials
         User user = userService.findUserByEmail(username);
-
+        System.out.println(username);
+        System.out.println(password);
+        System.out.println(user);
         if ( user == null )
         {
             throw new ServletException( "User username not found." );
         }
 
         String pwd = user.getPassword();
-
         if ( !password.equals( pwd ) )
         {
             throw new ServletException( "Invalid login. Please check your name and password." );
@@ -63,7 +63,7 @@ public class UserController
     @RequestMapping("/users")
     public List<User> getAll(){
         return userService.getUsers();
-    }
+    }W
 
 
     public class Token

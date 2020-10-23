@@ -37,15 +37,14 @@ export default class Login extends React.Component{
 
     }
 
-    iniciarSesion(event){
+    async iniciarSesion(event){
       event.preventDefault();
-      let user = {
-                   username: this.state.username,
-                   password: this.state.password
-      }
-      axios.post('http://localhost:8080/user/login', user)
-             .then(function (response) {
-                 console.log(response.data);
+      await axios.post('http://localhost:8080/user/login', {
+             username: this.state.username,
+             password: this.state.password
+         })
+             .then((response) => {
+               console.log(response.data)
              })
              .catch(function (error) {
                  console.log(error);
